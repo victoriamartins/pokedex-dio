@@ -1,10 +1,28 @@
 const pokeApi = {}
 
-pokeApi.getPokemonDetail = pokemon => {
-    return fetch(pokemon.url).then(response => response.json())
+function convertToPokemon(pokeDetail) {
+    const pokemon = new Pokemon()
+
+    pokemon.name = pokeDetail.name
+    pokemon.num = pokeDetail.id
+    /*
+        Type é array com n tipos, cada tipo tem um slot, que é um identificador,
+        e tem tbm um type que contém nome do tipo e url do tipo
+    */
+    pokemon.types = pokeDetail.types.map(typeSlot => typeSlot.type.name)
+    pokemon.main_type = pokemon.types[0]
+    pokemon.picture = pokeDetail.sprites.other.dream_world.front_default
+
+    return pokemon
 }
 
-pokeApi.getPokemons = (offset = 0, limit = 6) => {
+pokeApi.getPokemonDetail = pokemon => {
+    return fetch(pokemon.url)
+        .then(response => response.json())
+        .then(convertToPokemon)
+}
+
+pokeApi.getPokemons = (offset = 0, limit = 5) => {
     const url = `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
 
     return fetch(url)

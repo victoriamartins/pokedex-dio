@@ -5,6 +5,18 @@
     --vermelho: #dd3131;
     --vermelho-claro: #eb5858;
     --vermelho-escuro: #b62121;
+    --water: #675fee;
+    --bug: #a8b720;
+    --grass: #77c850;
+    --eletric: #f7cf2e;
+    --ice: #98d5d7;
+    --ground: #dfbf69;
+    --flying: #a98ff0;
+    --poison: #a040a0;
+    --fighting: #bf3029;
+    --psychic: #f65687;
+    --dark: #725847;
+    --normal: #a6a877;
 }
 
 * {
@@ -52,12 +64,61 @@ h1 {
     gap: 0.5rem;
 }
 
-.pokemon:hover {
-    background-color: var(--verde-escuro);
+.nome {
+    text-transform: capitalize;
+    font-weight: 600;
 }
 
-.fire-type {
+.electric {
+    background-color: var(--eletric);
+}
+
+.psychic {
+    background-color: var(--psychic);
+}
+
+.dark {
+    background-color: var(--dark);
+}
+
+.ice {
+    background-color: var(--ice);
+}
+
+.ground {
+    background-color: var(--ground);
+}
+
+.flying {
+    background-color: var(--flying);
+}
+
+.poison {
+    background-color: var(--poison);
+}
+
+.fighting {
+    background-color: var(--fighting);
+}
+
+.fire {
     background-color: var(--vermelho-escuro);
+}
+
+.water {
+    background-color: var(--water);
+}
+
+.bug {
+    background-color: var(--bug);
+}
+
+.grass {
+    background-color: var(--grass);
+}
+
+.normal {
+    background-color: var(--normal);
 }
 
 .identificacao {
@@ -88,11 +149,32 @@ h1 {
     padding: 0;
     list-style: none;
 
-    background-color: var(--verde-claro);
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 0.25rem;
     border-radius: 0.5rem;
     font-size: 0.7rem;
     margin-block: 0.25rem;
+}
+
+.pokemon:hover {
+    filter: contrast(1.3);
+}
+
+.paginacao {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+#load-more {
+    border-radius: 1rem;
+    background-color: var(--poison);
+    border: none;
+    color: white;
+    padding: 0.5rem;
 }
 
 @media screen and (min-width: 321px) {

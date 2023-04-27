@@ -1,36 +1,57 @@
-function converPokemonTypes(pokemonTypes) {
-    return pokemonTypes.map(typeSlot => {
-        return `<li class="tipo">${typeSlot.type.name}</li>`
-    })
-}
+const listaHTML = document.getElementById('lista-de-pokemons')
+const btnPaginacao = document.getElementById('load-more')
+const limit = 5
+let offset = 0
+const maxRecords = 151
 
 function converPokemonToLi(pokemon) {
     return `
-        <li class="pokemon">
+        <li class="pokemon ${pokemon.main_type}">
             <div class="identificacao">
                 <span class="nome">${pokemon.name}</span>
-                <span class="numero">#${pokemon.order}</span>
+                <span class="numero">#${pokemon.num}</span>
             </div>
 
             <div class="detalhe">
                 <ul class="tipos">
-                    ${converPokemonTypes(pokemon.types).join(' ')}
+                    ${pokemon.types
+                        .map(
+                            type =>
+                                `<li class="tipo ${'tipo-'.concat(
+                                    pokemon.main_type
+                                )}">${type}</li>`
+                        )
+                        .join(' ')}
                 </ul>
-                <img src="${
-                    pokemon.sprites.other.dream_world.front_default
-                }" alt="Imagem do pokemon ${pokemon.name}" />
+                <img src="${pokemon.picture}" alt="Imagem do pokemon ${
+        pokemon.name
+    }" />
             </div>
         </li>
     `
 }
 
-pokeApi.getPokemons().then((pokemons = []) => {
-    const newList = pokemons.map(pokemon => {
-        return converPokemonToLi(pokemon)
+function loadPokeItems(offset = 0, limit = 5) {
+    pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
+        const newList = pokemons.map(pokemon => {
+            return converPokemonToLi(pokemon)
+        })
+
+        const newHTML = newList.join('') // junta tudo numa string sem separação
+        listaHTML.innerHTML += newHTML
     })
+}
 
-    const newHTML = newList.join('') // junta tudo numa string sem separação
+loadPokeItems(offset, limit)
 
-    listaHTML = document.getElementById('lista-de-pokemons')
-    listaHTML.innerHTML += newHTML
+btnPaginacao.addEventListener('click', () => {
+    offset += limit
+
+    let qtdPokemon = offset + limit
+
+    if (qtdPokemon >= maxRecords) {
+        const newLimit = maxRecords - offset
+        loadPokeItems(offset, newLimit)
+        btnPaginacao.parentElement.removeChild(btnPaginacao)
+    } else loadPokeItems(offset, limit)
 })
